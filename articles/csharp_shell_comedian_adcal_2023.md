@@ -1,8 +1,11 @@
 ---
-title: ""
+title: "C#でShell芸人を目指す"
 emoji: "🎃"
 type: "tech" # tech: 技術記事 / idea: アイデア
-topics: []
+topics: 
+  - "csharp"
+  - "dotnet"
+  - "shell"
 published: true
 published_at: "2023-12-02 00:00"
 ---
