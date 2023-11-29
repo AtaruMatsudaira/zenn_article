@@ -1,0 +1,9 @@
+{
+    "pasteImage.namePrefix": "",
+    "pasteImage.defaultName": "Y-MM-DD-HH-mm-ss",
+    "pasteImage.path": "${projectRoot}/images/${currentFileNameWithoutExt}",
+    "pasteImage.basePath": "${projectRoot}",
+    "pasteImage.prefix": "/",
+    "pasteImage.showFilePathConfirmInputBox": true,
+    "pasteImage.filePathConfirmInputBoxMode": "onlyName",
+}

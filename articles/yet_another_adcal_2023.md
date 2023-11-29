@@ -215,4 +215,4 @@ public class HttpCompareSample : MonoBehaviour
 HttpClient自体は.NET標準のHttpClientを使用しているので、使用する上ではそのままMSの公式dドキュメントが参考になるかと思います。
 https://learn.microsoft.com/ja-jp/dotnet/fundamentals/networking/http/httpclient
 
-明日は、〇〇さんの[XXXX](YYYY)となります！
+明日は、また私の記事となります！お楽しみに！
