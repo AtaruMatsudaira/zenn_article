@@ -1,5 +1,5 @@
 ---
-title: "Unity向けasync/await対応WebSocketライブラリを作った(?)話"
+title: "ナウでヤングな若者言葉をWebSocketがしゃべれるようにする"
 emoji: "🔖"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["csharp","unity","websocket"]

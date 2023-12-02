@@ -1,5 +1,5 @@
 ---
-title: "C#でShell芸人を目指す"
+title: "C#でShell芸人を目指す 【ProcessX,ConsoleAppFramework】"
 emoji: "🎃"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: 
@@ -292,4 +292,6 @@ C#にはWindowsでしか動かないライブラリもありますが、Xamarin�
 
 Cysharpに足を向けて寝れそうにないですね！
 
-明日は、〇〇さんの[XXXX](YYYY)となります！
+明日もまたまた私の記事となります！
+タイトルは「ナウでヤングな若者言葉をWebSocketがしゃべれるようにする」となります！
+お楽しみに。
