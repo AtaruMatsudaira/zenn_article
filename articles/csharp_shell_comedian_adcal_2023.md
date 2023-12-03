@@ -19,13 +19,13 @@ published_at: "2023-12-02 00:00"
 よくある秘伝のタレ
 
 - CIツール
-    - ビルドしたapkやipaをAppCenterなどにPush
+  - ビルドしたapkやipaをAppCenterなどにPush
 - ビルドマシンのブランチお掃除
-    - アプリまわり
-    - バージョン表記
-    - デバッグ用Appのアイコン自動生成
+  - アプリまわり
+  - バージョン表記
+  - デバッグ用Appのアイコン自動生成
 - その他
-    - TODO列挙
+  - TODO列挙
 
 などなど...割と言語バラバラで作られてることが多いです。
 そのため、言語を何かしらに統一したほうがいいと筆者は考えています。
@@ -42,13 +42,13 @@ using System;
 
 namespace ConsoleApp1
 {
-		public class Program
-		{
-			 public static void Main(string[] args)
-			 {
-					 Console.WriteLine("Hello world");
-			 }
-		}
+  public class Program
+  {
+    public static void Main(string[] args)
+    {
+      Console.WriteLine("Hello world");
+    }
+  }
 }
 ```
 
@@ -81,16 +81,17 @@ using System.Runtime.CompilerServices;
 [CompilerGenerated]
 internal class Program
 {
-    private static void <Main>$(string[] args)
-    {
-        Console.WriteLine("Hello World");
-    }
+  private static void <Main>$(string[] args)
+  {
+    Console.WriteLine("Hello World");
+  }
 
-    public Program()
-	{
-		base..ctor();
-	}
+  public Program()
+  {
+    base..ctor();
+  }
 }
+
 ```
 
 ## 注意点
@@ -115,7 +116,7 @@ using Cysharp.Diagnostics;
 
 await foreach (string item in ProcessX.StartAsync("dotnet --info"))
 {
-	Console.WriteLine(item);
+  Console.WriteLine(item);
 }
 ```
 
@@ -183,12 +184,12 @@ await ConsoleApp.RunAsync(args, MainAsync);
 
 async Task<int> MainAsync(int num)
 {
-    if (num % 2 == -1)
-    {
-        return 1;
-    }
+  if (num % 2 == -1)
+  {
+    return 1;
+  }
 
-    return 0;
+  return 0;
 }
 
 ```
@@ -225,55 +226,55 @@ var sb = new StringBuilder();
 await ConsoleApp.RunAsync(args, MainAsync);
 
 async Task<int> MainAsync(
-    [Option("path", "走査するディレクトリ")] string rootPath,
-    [Option("ex", "拡張子")] string extensions = "cs")
+  [Option("path", "走査するディレクトリ")] string rootPath,
+  [Option("ex", "拡張子")] string extensions = "cs")
 {
-    if (File.Exists(rootPath))
+  if (File.Exists(rootPath))
+  {
+    log("pathがファイルでした。ディレクトリを指定してください", ConsoleColor.Red);
+    return 1;
+  }
+
+  await $"cd {rootPath}";
+
+  var csPaths = await $"find {rootPath} -type f -name '*.{extensions}'";
+  foreach (var csPath in csPaths.Split(br))
+  {
+    string grepResults;
+    try
     {
-        log("pathがファイルでした。ディレクトリを指定してください", ConsoleColor.Red);
-        return 1;
+      grepResults = await $"grep -in '[^a-zA-Z]TODO[^a-zA-Z]' '{csPath}'";
+    }
+    catch (ProcessErrorException)
+    {
+      continue;
     }
 
-    await $"cd {rootPath}";
-
-    var csPaths = await $"find {rootPath} -type f -name '*.{extensions}'";
-    foreach (var csPath in csPaths.Split(br))
+    foreach (var grepResult in grepResults.Split(br))
     {
-        string grepResults;
-        try
-        {
-            grepResults = await $"grep -in '[^a-zA-Z]TODO[^a-zA-Z]' '{csPath}'";
-        }
-        catch (ProcessErrorException)
-        {
-            continue;
-        }
+      var index = grepResult.IndexOf(':');
+      var lineNum = grepResult.Substring(0, index);
+      var content = grepResult.Substring(index + 1);
+      string blameInfos;
 
-        foreach (var grepResult in grepResults.Split(br))
-        {
-            var index = grepResult.IndexOf(':');
-            var lineNum = grepResult.Substring(0, index);
-            var content = grepResult.Substring(index + 1);
-            string blameInfos;
+      try
+      {
+        blameInfos = await $"git blame -L {lineNum},+1 {csPath} --porcelain";
+      }
+      catch (ProcessErrorException)
+      {
+        continue;
+      }
 
-            try
-            {
-                blameInfos = await $"git blame -L {lineNum},+1 {csPath} --porcelain";
-            }
-            catch (ProcessErrorException)
-            {
-                continue;
-            }
-
-            var author = blameInfos.Split(br).Where(info => info.StartsWith("author")).FirstOrDefault("");
-            sb.AppendLine($"{csPath}:{lineNum}:{author}");
-            sb.AppendLine(content);
-            sb.AppendLine();
-        }
+      var author = blameInfos.Split(br).Where(info => info.StartsWith("author")).FirstOrDefault("");
+      sb.AppendLine($"{csPath}:{lineNum}:{author}");
+      sb.AppendLine(content);
+      sb.AppendLine();
     }
+  }
 
-    log(sb.ToString(), ConsoleColor.Yellow);
-    return 0;
+  log(sb.ToString(), ConsoleColor.Yellow);
+  return 0;
 }
 ```
 
@@ -293,5 +294,5 @@ C#にはWindowsでしか動かないライブラリもありますが、Xamarin�
 Cysharpに足を向けて寝れそうにないですね！
 
 明日もまたまた私の記事となります！
-タイトルは「ナウでヤングな若者言葉をWebSocketがしゃべれるようにする」となります！
+[「ナウでヤングな若者言葉をWebSocketがしゃべれるようにする」](https://zenn.dev/matsuataru/articles/async_websoket_adcal_2023)となります！
 お楽しみに。
