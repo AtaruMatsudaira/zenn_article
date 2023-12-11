@@ -84,24 +84,27 @@ public class User
 ## System.Text.Json
 
 System.Text.Json は名前空間からわかる通り、.NET標準のJSONモジュールです。
-比較的新しいモジュールであり、.NET2.0 Standerdから使用できます。
-Unityのバージョンで言うと2020ぐらいからでしょうか。
 
-特徴としては
+特徴としてはSourceGeneratorというC#コンパイラの機能を用いて各シリアライズクラスに対し、専用のシリアライズ/デシリアライズコードを生成することで高速な処理を実現している点が上げられます。
+下記記事で詳しく取り上げられています。
 
-```cs
-[JsonSerializable(typeof(User))]
-internal partial class User : JsonSerializerContext {}
-```
+https://devblogs.microsoft.com/dotnet/try-the-new-system-text-json-source-generator/
 
-JsonUtilityとSystem.Text.Jsonの性能比較についてはは下記の記事で解説されています。
+詳しい解説や導入方法、JsonUtilityとSystem.Text.Jsonの性能比較についてはは下記の記事で解説されています。
 
 https://blog.yucchiy.com/2022/12/csharp-advent-calendar-system-text-json-unity/#%E3%83%91%E3%83%95%E3%82%A9%E3%83%BC%E3%83%9E%E3%83%B3%E3%82%B9%E6%AF%94%E8%BC%83
 
 ## Newtonsoft.Json
 
-## Utf8Json (非推奨)
+ちょっとややこしいことになっています。
 
+
+## Utf8Json (非推奨)
+neueccさんせいのJsonシリアライザです。性能はとてもよいのですがパブリックアーカイブとなっており、これから新規で採用することはないです。
+少なくともIL2CPP環境では確実に動作しません。
+今までありがとうございました。
+
+https://github.com/neuecc/Utf8Json
 
 # MessagePack
 
