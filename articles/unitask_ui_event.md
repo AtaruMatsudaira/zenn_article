@@ -8,7 +8,7 @@ published: false
 
 # はじめに
 
-都内で大学生をしているmattunです。今日は松屋のうまトマチキンを食べました。美味しかったです。
+都内で大学生をしているmattunです。松屋のうまトマチキンを食べました。美味しかったです。
 この記事は [サイバーエージェント24卒内定者 Advent Calendar](https://qiita.com/advent-calendar/2023/ca24engineer)の13日目です。
 
 # TL;DR
@@ -34,6 +34,7 @@ https://qiita.com/toRisouP/items/8f66fd952eaffeaf3107#%E6%96%B0%E6%A9%9F%E8%83%B
 今回はボタンをクリックすると5秒間をカウントするタイマーが作動します。
 
 ソースコードは以下の通りです。
+(今回はCancellationTokenを省略しています)
 
 ```cs
 using System;
@@ -80,15 +81,18 @@ namespace Samples
 
 ![Alter](/images/adcal_2023_unitask_ui_event_1.gif)
 
-Aの方がよくある、 ``onClick.AddListener`` を使った実装になります。
+A、Bのそれぞれの挙動を見てみましょう。
+
+## 従来の``onClick.AddListerer``による実装 (Aボタン)
 
 ```cs
 buttonA.onClick.AddListener(() => TimerRunAsync(timerLabelA).Forget());
 ```
 
 Aはタイマーの非同期処理が動いている間でもクリックイベントが発火してしまいます。
+タイマーの非同期処理をForgetで呼んでいるので、終了を検知できていませんね。
 
-Bの方が ``IUniTaskAsyncEnumerable`` を使った実装になります。
+##  ``IUniTaskAsyncEnumerable`` を使った実装 (Bボタン)
 
 ```cs
 buttonB
@@ -96,10 +100,23 @@ buttonB
     .SubscribeAwait(async _ => await TimerRunAsync(timerLabelB));
 ```
 
+BはSubscribeAwaitでタイマーの非同期処理をawaitしています。
+そのため、重複してタイマーの非同期処理が実行されません。
+
+今回のサンプルではSubscribeAwaitを使用しました。
+そのほかにも、ForEachAsyncやForEachAwaitAsyncなどの選択肢もあります。
+状況に応じて適切に使い分けましょう。
+
 # おわりに
 
+この記事ではボタンを使用しました。
+そのほかにも、InputFieldやDropdown、Sliderなどの他のUIコンポーネントでも``IUniTaskAsyncEnumerable`` 系統の拡張メソッドが生えているので活用しましょう。
 
-今回のサンプルは下記リポジトリの ``Assets/Scenes/ButtonThrottlerSample.unity`` に格納されています。
+また、今回のサンプルは下記リポジトリの ``Assets/Scenes/ButtonThrottlerSample.unity`` に格納されています。
 CloneなりForkなりお好きにどうぞ。
 
 https://github.com/AtaruMatsudaira/UniTaskUISamples
+
+これで [サイバーエージェント24卒内定者 Advent Calendar](https://qiita.com/advent-calendar/2023/ca24engineer)の13日目の記事は以上となります！
+
+明日の投稿もご期待ください！！！
