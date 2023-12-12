@@ -65,5 +65,9 @@ VSCodeの遷移先でLive Serverのインストール画面がまたでてくる
 
 ![Alt text](/images/global_airdrop_1.png)
 
+インストールができたら右下に Go Liveなるものができあがっています。
+このGo Liveをクリックしましょう。
 
+![Alt text](/images/global_aridrop_3.png)
 
+クリックすると、冒頭の
