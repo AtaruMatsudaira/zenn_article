@@ -125,15 +125,32 @@ namespace UI
 
 ## イベントハンドリング
 
-それぞれのボタンのクリッ九
+まず、それぞれのボタンのクリックのUniTaskのコレクションをWhenAnyでawaitすることで、どのボタンがクリックされたかIndexで取得しています。
 
 ```cs
-            var clickedIndex = await UniTask.WhenAny(
-                    clickHandlers
-                        .Select(h => h.btn.OnClickAsync(ct)));
+var clickedIndex = await UniTask.WhenAny(clickHandlers
+    .Select(h => h.btn.OnClickAsync(clickCts.Token)));
 ```
 
+その後、Indexに基づいて登録された非同期処理を実行しています。
+
+```cs
+await clickHandlers[clickedIndex].eventAction(clickCts.Token);
+```
+
+注意点としては、CancellationTokenSource/CancellationTokenをクリックされるたびに``CancellationTokenSource.CreateLinkedTokenSource``で作成しています。
+``using var`` で定義しているのでスコープが外れた際、今回の場合は1回のwhileループが終了する際に、CancellationSourceがDisposeされています。
+そのため、WhenAnyで待たれなくなった非同期処理も1ループが終了する際にはCancellされています。
+
+では実際にこのButtonGroupを使用してみましょう。
+
 # イベントを購読する
+
+冒頭の紹介したように動作するサンプルです。
+
+![](/images/adcal_2023_unitask_ui_group_1.gif)
+
+それぞれのボタンクリック時の演出中はボタンをタップしても演出が再生されないようになっています。
 
 ```cs
 using System;
@@ -219,3 +236,15 @@ namespace Samples
     }
 }
 ```
+
+登録部分に関してはメンバの関数を渡してもラムダ式を渡しても問題ないようにしています。
+
+```cs
+            _buttonGroup.AddButton(button1, Button1EventAsync);
+            _buttonGroup.AddButton(button2, Button2EventAsync);
+            _buttonGroup.AddButton(button3, async ct =>
+            {
+                ... // 省略
+            }
+```
+
