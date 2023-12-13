@@ -5,7 +5,8 @@ type: "tech" # tech: 技術記事 / idea: アイデア
 topics:
   - "csharp"
   - "unity"
-published: false
+published: true
+published_at: "2023-12-014 00:00"
 ---
 
 # はじめに
@@ -52,12 +53,12 @@ namespace UI
             _eventMap.Add(key, (button, eventAction));
         }
 
-        public void AddPreAsyncEvent(Func<CancellationToken, UniTask> preClickEvent)
+        public void SetPreAsyncEvent(Func<CancellationToken, UniTask> preClickEvent)
         {
             _preAsyncEvent = preClickEvent;
         }
 
-        public void AddPostAsyncEvent(Func<CancellationToken, UniTask> postClickEvent)
+        public void SetPostAsyncEvent(Func<CancellationToken, UniTask> postClickEvent)
         {
             _postAsyncEvent = postClickEvent;
         }
@@ -196,8 +197,8 @@ namespace Samples
                 label3.SetText("Finish");
             });
 
-            _buttonGroup.AddPreAsyncEvent(async _ => processingPanel.SetActive(true));
-            _buttonGroup.AddPostAsyncEvent(async _ => processingPanel.SetActive(false));
+            _buttonGroup.SetPreAsyncEvent(async _ => processingPanel.SetActive(true));
+            _buttonGroup.SetPostAsyncEvent(async _ => processingPanel.SetActive(false));
 
             _buttonGroup.RunAsync(destroyCancellationToken).Forget();
         }
@@ -248,3 +249,19 @@ namespace Samples
             }
 ```
 
+また今回はボタンクリックの非同期処理が実行される前と後に共通で実行して欲しい処理も設定できます。
+
+今回は前後でパネルを表示させることにしました。
+
+```cs
+            _buttonGroup.SetPreAsyncEvent(async _ => processingPanel.SetActive(true));
+            _buttonGroup.SetPostAsyncEvent(async _ => processingPanel.SetActive(false));
+```
+
+# おわりに
+
+今回紹介したものはあくまで一例となります。
+改善案とかがありましたら下記リンクのリポジトリでPRを投げていただけると励みになります。
+
+これで[サイバーエージェント24卒内定者 Advent Calendar](https://qiita.com/advent-calendar/2023/ca24engineer)の14日目の記事は終わりになります.
+ありがとうございました。
