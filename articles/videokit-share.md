@@ -10,7 +10,7 @@ published: true
 
 この度、新社会人になった(?) mattun です。
 今回は NatMLから出ている VideoKit を使って Unity でカメラロールから画像を選択したり、逆に画像を保存してみようと思います。
-また、おまけとして画像のSNS共有もやって行こうと思います。よろしくお願いします。
+また、おまけとして画像のSNS共有もやります。よろしくお願いします。
 
 # 動作確認環境
 
@@ -24,7 +24,7 @@ published: true
 ## パッケージの導入
 
 UPMで入れていきます。
-`manifest.json` の `scopedRegistries` と `dependencies` の項目に次の2つを追記してください。
+`manifest.json` の `scopedRegistries` と `dependencies`ß の項目に次の2つを追記してください。
 
 ```json
 {
