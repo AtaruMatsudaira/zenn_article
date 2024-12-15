@@ -1,5 +1,5 @@
 ---
-title: "PureなC#でインゲームロジックを書いてUnityやBlazor使い回してみる"
+title: "PureなC#でインゲームロジックを書いてUnityやBlazorで使い回してみる"
 emoji: "🦔"
 type: "tech"
 topics: ["unity", "csharp"]
