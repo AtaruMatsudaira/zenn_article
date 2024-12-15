@@ -3,7 +3,8 @@ title: "PureなC#でインゲームロジックを書いてUnityやBlazor使い�
 emoji: "🦔"
 type: "tech"
 topics: ["unity", "csharp"]
-published: false
+published: true
+published_at: "2023-12-15 20:00"
 ---
 
 :::message
