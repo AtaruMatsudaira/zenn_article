@@ -48,9 +48,9 @@ ZLinq は独自の ValueEnumerable 構造体を基底に持っているため、
 
 愚直にやるのなら、 `ValueEnumerable` に置き換えるのが良さそうに思えるかも知れません。
 
-実は、`ValueEnumerable` は構造体&&型引数で `IValueEnumerator<T>` を実装した型(以下、 `TValueEnumerator`)要求しているため、共変性もありません。
+実は、`ValueEnumerable` は構造体であり、型引数で `IValueEnumerator<T>` を実装した型（以下、`TValueEnumerator`）を要求しているため、共変性もありません。
 そのため、 `ValueEnumerator` の具象型を指定する必要があります。
-ただ、この `TValueEnumerator` は 使用されているオペレータとその組み合わせを元に型が変わるため、個人的には具象型を指定するのは現実的ではないように感じました。
+ただ、この `TValueEnumerator` は使用されているオペレータとその組み合わせを元に型が変わるため、個人的には具象型を指定するのは現実的ではないように感じました。
 
 :::details オペレータのサンプルコード
 
@@ -73,26 +73,26 @@ ValueEnumerable<WhereSelect<FromRange, int, int>, int> whereSelect = source
 そのため、
 
 - 遅延処理をさせたい場合
-  - `IReadOnlyList`の getter プロパティを定義し、プロパティ内でシーケンスを評価し、ToArray して返す
+  - `IReadOnlyList<T>` の getter プロパティを定義し、プロパティ内でシーケンスを評価し、`ToArray()` して返す
 - その他
-  - 代入する箇所で ToArray を行い、`IReadOnlyList` で保持
+  - 代入する箇所で `ToArray()` を行い、`IReadOnlyList<T>` で保持
 
 の対応を行いました。
 
 ### 自身が定義したメソッドなどで `IEnumerable<T>` を 返していた場合
 
-こちらも、ほぼほぼ上記と同様に、 `IReadOnlyList`で返すようにしています。
+こちらも、ほぼ上記と同様に、`IReadOnlyList<T>` で返すようにしています。
 
-また、ZLinq には `PooledArray` という`IDisposable`を実装した`System.Buffers.ArrayPool`のラッパーが実装されています。
-Dispose されると、 `ArrayPool`に返却されるためコストが低いです。
+また、ZLinq には `PooledArray` という `IDisposable` を実装した `System.Buffers.ArrayPool` のラッパーが実装されています。
+Dispose されると、`ArrayPool` に返却されるためコストが低いです。
 返したコレクションの寿命が明確な場合はこちらの `PooledArray` で返すようにしています。
 
 ### 使用してるライブラリなどの API 側で `IEnumerable<T>` を要求している場合
 
 使用頻度の低いものに関しては、上記で定義した `AsEnumerable` でそのまま渡すようにしています。
 
-使用頻度の高いものは、 `ValueEnumerable`で受け取る拡張メソッドや asmref+partial クラスをプロジェクト側で定義し、
-そこの中で `AsEnumerable` や `ToArray` をして API 側に渡しています。
+使用頻度の高いものは、`ValueEnumerable` で受け取る拡張メソッドや asmref + partial クラスをプロジェクト側で定義し、
+その中で `AsEnumerable()` や `ToArray()` をして API 側に渡しています。
 
 :::details UniTask の partial クラスのサンプルコード
 
@@ -120,19 +120,20 @@ namespace Cysharp.Threading.Tasks
 
 :::details R3 の拡張メソッドのサンプルコード
 
-````cs
+```cs
 public static Observable<T> Merge<T, TEnumerator>(this ValueEnumerable<TEnumerator, Observable<T>> source)
     where TEnumerator : struct, IValueEnumerator<Observable<T>>
 {
     return source.AsEnumerable().Merge();
 }
 ```
+
 :::
 
 # 最後に
 
 対応は以上となります。
-ぶっちゃけ、ToArray しまくってますが、これはこれでアリなのか自分でも余りよく分かっていません。
+ぶっちゃけ、`ToArray()` しまくってますが、これはこれでアリなのか自分でもあまりよく分かっていません。
 
 本題とはそれてしまいますが、ZLinq を導入してみて、最新の .NET 仕様のオペレータを利用できるのが個人的に良かったと感じました。
 例えば、今回導入したプロジェクトでは Nullable を導入しているのですが、
