@@ -28,11 +28,11 @@ global using ZLinq;
 [assembly: ZLinqDropInAttribute("", DropInGenerateTypes.Everything)]
 ```
 
-これにより、既存の Linq を使用していた箇所が全て DropInGenerartor に置き換わります。
+これにより、既存の LINQ を使用していた箇所が全て DropInGenerator に置き換わります。
 
 この時点でコンパイルエラーが大量に出ている状態でした。
 
-また、Zlinq の [README](https://github.com/Cysharp/ZLinq?tab=readme-ov-file#unity)を参考に プロジェクト側で `ValueEnumerable`の拡張メソッドとして`IEnumerable<T>` を返す `AsEnumerable` も実装しています。
+また、ZLinq の [README](https://github.com/Cysharp/ZLinq?tab=readme-ov-file#unity)を参考にプロジェクト側で `ValueEnumerable` の拡張メソッドとして `IEnumerable<T>` を返す `AsEnumerable` も実装しています。
 
 
 # 問題発生項目とその対処
@@ -41,7 +41,7 @@ global using ZLinq;
 
 ## `IEnumerable<T>` が使えなくなる
 
-Zlinq は独自の ValueEnumerable 構造体を基底に持っているため、`IEnumerable<T>` と直接的な互換性はありません。
+ZLinq は独自の ValueEnumerable 構造体を基底に持っているため、`IEnumerable<T>` と直接的な互換性はありません。
 そのため、 明示的に `IEnumerable<T>` を使用している箇所は軒並みコンパイルエラーとなってしまいます。
 
 ### メンバとして `IEnumerable<T>` を保持していた場合
@@ -49,7 +49,7 @@ Zlinq は独自の ValueEnumerable 構造体を基底に持っているため、
 愚直にやるのなら、 `ValueEnumerable` に置き換えるのが良さそうに思えるかも知れません。
 
 実は、`ValueEnumerable` は構造体&&型引数で `IValueEnumerator<T>` を実装した型(以下、 `TValueEnumerator`)要求しているため、共変性もありません。
-そのため、 `ValueEnumerator` の具象型をしていする必要があります。
+そのため、 `ValueEnumerator` の具象型を指定する必要があります。
 ただ、この `TValueEnumerator` は 使用されているオペレータとその組み合わせを元に型が変わるため、個人的には具象型を指定するのは現実的ではないように感じました。
 
 :::details オペレータのサンプルコード
@@ -68,7 +68,7 @@ ValueEnumerable<WhereSelect<FromRange, int, int>, int> whereSelect = source
 
 :::
 
-また、Zlinq 導入以前に、`IEnumerable<T>` として保持すべきケースは遅延処理を行わせたいなど、限られていると感じます。
+また、ZLinq 導入以前に、`IEnumerable<T>` として保持すべきケースは遅延処理を行わせたいなど、限られていると感じます。
 
 そのため、
 
@@ -132,13 +132,13 @@ public static Observable<T> Merge<T, TEnumerator>(this ValueEnumerable<TEnumerat
 # 最後に
 
 対応は以上となります。
-ぶっちゃけ、ToArrayしまくってますが、これはこれでアリなのか自分でも余りよく分かっていません。
+ぶっちゃけ、ToArray しまくってますが、これはこれでアリなのか自分でも余りよく分かっていません。
 
-本題とはそれてしまいますが、Zlinqを導入してみて、最新の .NET 仕様のオペレータを利用できるのが個人的に良かったと感じました。
+本題とはそれてしまいますが、ZLinq を導入してみて、最新の .NET 仕様のオペレータを利用できるのが個人的に良かったと感じました。
 例えば、今回導入したプロジェクトでは Nullable を導入しているのですが、
-既存の .NET Standerd 2.1の Linq の `FirstOrDefault` だと Null を返す可能性があるに `T` で返していました。
+既存の .NET Standard 2.1 の LINQ の `FirstOrDefault` だと Null を返す可能性があるのに `T` で返していました。
 ZLinq は最新の .NET よろしく、 `T?` で返してくれます。
 これにより、よりnull安全性を高めることができました。
 
-重ねてにはなりますが、私自身手探りで ZLinq の使い方を模索している最中になるのでマサカリ大歓迎です！
-ZennのコメントでもTwitterの引用RTでも何でも受け付けてます！よろしくお願いします！
+重ねてになりますが、私自身手探りで ZLinq の使い方を模索している最中なのでマサカリ大歓迎です！
+Zenn のコメントでも Twitter の引用 RT でも何でも受け付けてます！よろしくお願いします！
