@@ -1,5 +1,5 @@
 ---
-title: "UnityEditorのアイコンを画像に差し替えるOSS作ってみた"
+title: "UnityEditorのアイコンを画像に差し替えるOSS「Unicon」を作ってみた"
 emoji: "🖼️"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["Unity", "Mac", "Windows"]
