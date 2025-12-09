@@ -1,9 +1,9 @@
 ---
 title: "UnityEditorのアイコンを画像に差し替えるOSS作ってみた"
-emoji: "✨"
+emoji: "🖼️"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["Unity", "Mac", "Windows"]
-published: false
+published: true
 ---
 
 # 初めに
@@ -16,9 +16,11 @@ published: false
 
 以前から作業プロジェクトと基盤プロジェクトなどの 2 エディタくらいを並列で開くことはあったのですが、AI エージェントを併走させるとなると平気で 3、4 個同時に立ち上げることになり、判別がかなり難しくなったと感じます。
 
-そのため、次の gif のように Unity のアイコンを任意の画像に差し替えられるようにしてみます。
+そのため、次の gif のように Unity のアイコンを任意の画像に差し替えられる OSS を作成してみました。マサカリ/PR 大歓迎です！
 
 ![image](/images/unicon_adcale_2025/unicon_1.gif)
+
+https://github.com/AtaruMatsudaira/Unicon/
 
 # 使い方
 
@@ -142,3 +144,11 @@ Windows は macOS と異なり、アイコンは各ウィンドウごとに独�
 https://github.com/AtaruMatsudaira/Unicon/blob/fd24ba2669d58f1a70e08b2131b91b559e99ce22/Packages/com.mattun.unicon/Editor/Unicon/Internal/WindowsNativeMethods.cs#L133-L137
 
 これにより、同じ Unity Editor でもプロジェクトごとに別のアプリケーションとして認識され、タスクバー上で分離して表示されるようになります。
+
+# 最後に
+
+以上で、QualiArts アドベントカレンダー 2025 の 10 日目の記事を締めたいと思います。
+
+Unicon が皆さんの並列作業の一助となれば幸いです。
+
+ここまで読んでいただき、ありがとうございました！
