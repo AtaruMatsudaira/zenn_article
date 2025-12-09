@@ -28,6 +28,12 @@ https://github.com/AtaruMatsudaira/Unicon/
 
 OpenUPM と Git 形式に対応しています。
 
+:::details 余談
+OpenUPMでの月間インストール数、400ありがとうございます！！
+https://openupm.com/packages/com.mattun.unicon/
+![](/images/unicon_adcale_2025/open_upm.png)
+:::
+
 インストールしたら、Preferences から Unicon の項目を選び、
 
 1. Enable Custom Dock Icon を有効化（赤枠）
