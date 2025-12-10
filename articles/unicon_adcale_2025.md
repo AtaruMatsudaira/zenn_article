@@ -131,7 +131,7 @@ NSApplication.shared.applicationIconImage のドキュメントでは
 ## Windows での実装
 
 元々、Unicon は macOS のみのサポートを予定していました。
-OSS として v1.0.0 を公開したところ、私と同じくサイバーエージェントグループの Applibot に所属する同期の [焼き鯖くん](https://x.com/yakisabananoka)が Windows 対応の PR を出してくれました。
+OSS として v1.0.0 を公開したところ、私と同じくサイバーエージェントグループの Applibot に所属する同期の [焼き鯖くん](https://github.com/yakisabananoka)が Windows 対応の PR を出してくれました。
 
 詳しくは焼き鯖くんのアドカレで投稿があるとのことなので、この記事では簡単に解説します。
 
