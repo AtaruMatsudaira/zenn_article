@@ -144,8 +144,8 @@ Windows は macOS と異なり、アイコンは各ウィンドウごとに独�
 
 ### タスクバーでのアイコンの扱い
 
-通常 Unity では [AUMID](https://learn.microsoft.com/ja-jp/windows/win32/shell/appids) が未設定のためシステムで定義された AUMID が使用される関係で、アプリ固有のアイコンがタスクバーで使用されていませんでした。
-タスクバー上でアイコンをグループ化するために、[AppUserModelID](https://learn.microsoft.com/ja-jp/windows/win32/shell/appids) を各ウィンドウに設定しています。
+通常 Unity では [AUMID](https://learn.microsoft.com/ja-jp/windows/win32/shell/appids) が未設定のためシステムで定義された AUMID が使用される関係で、半強制的にアプリ固有のアイコンがタスクバーで使用されていました。
+そのため、タスクバー上でアイコンをグループ化するために、各Unityごとに独立したAUMIDを設定した上で、任意のアイコンを設定しています
 
 https://github.com/AtaruMatsudaira/Unicon/blob/fd24ba2669d58f1a70e08b2131b91b559e99ce22/Packages/com.mattun.unicon/Editor/Unicon/Internal/WindowsNativeMethods.cs#L133-L137
 
